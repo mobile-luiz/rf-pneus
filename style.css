@@ -1,0 +1,158 @@
+/* Reset de estilo básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Corpo da página */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f9;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: 100vh;
+    padding: 20px;
+}
+
+/* Container do formulário */
+.form-container {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px; /* Largura máxima para desktops */
+    margin-top: 20px;
+}
+
+/* Título */
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Estilos dos grupos de input */
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 1rem;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+/* Estilos do botão */
+button {
+    width: 100%;
+    padding: 12px;
+    background-color: #6a1b9a;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+button:hover {
+    background-color: #9c4d97;
+}
+
+/* Estilo para os itens do serviço */
+#service-items {
+    margin-top: 20px;
+}
+
+#service-items .service-item {
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+}
+
+/* Botão de remoção de item */
+#service-items .service-item .remove-item-btn {
+    background-color: #f44336;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    padding: 8px;
+    margin-top: 10px;
+    cursor: pointer;
+    width: 100%;
+}
+
+#service-items .service-item .remove-item-btn:hover {
+    background-color: #d32f2f;
+}
+
+/* Estilos específicos para telas menores */
+@media (max-width: 600px) {
+    body {
+        padding: 10px; /* Reduz o padding para smartphones */
+    }
+
+    .form-container {
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 1.5rem; /* Ajuste de tamanho para dispositivos móveis */
+        margin-bottom: 10px;
+    }
+
+    button {
+        font-size: 1rem;
+    }
+
+    input {
+        font-size: 0.9rem;
+    }
+
+    .form-group {
+        margin-bottom: 12px; /* Reduz o espaço entre os campos em dispositivos menores */
+    }
+
+    /* Ajustando o botão "Adicionar Serviço" para ser mais acessível */
+    #add-service-btn {
+        font-size: 1rem;
+        padding: 10px;
+    }
+
+    /* Ajustando o botão "Autorizar Serviço" para que ele ocupe o espaço completo */
+    button[type="submit"] {
+        font-size: 1rem;
+    }
+}
+
+/* Estilos para telas ainda menores, como tablets em modo retrato */
+@media (max-width: 400px) {
+    .form-container {
+        padding: 10px;
+    }
+
+    button {
+        font-size: 0.9rem;
+    }
+
+    input {
+        font-size: 0.85rem;
+    }
+
+    .form-group {
+        margin-bottom: 10px;
+    }
+}

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autorização de Serviço</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Autorização de Serviço</h1>
+        <form id="authorization-form">
+            <!-- Informações do Cliente -->
+            <div class="form-group">
+                <label for="cliente">Sr.:</label>
+                <input type="text" id="cliente" name="cliente" required>
+            </div>
+            <div class="form-group">
+                <label for="telefone">Telefone:</label>
+                <input type="text" id="telefone" name="telefone" required>
+            </div>
+            <div class="form-group">
+                <label for="endereco">Endereço:</label>
+                <input type="text" id="endereco" name="endereco" required>
+            </div>
+            <div class="form-group">
+                <label for="numero">Número:</label>
+                <input type="text" id="numero" name="numero" required>
+            </div>
+            <div class="form-group">
+                <label for="placa">Placa:</label>
+                <input type="text" id="placa" name="placa" required>
+            </div>
+            <div class="form-group">
+                <label for="cnpj">CNPJ:</label>
+                <input type="text" id="cnpj" name="cnpj" required>
+            </div>
+            <div class="form-group">
+                <label for="inscricao-estadual">Inscrição Estadual:</label>
+                <input type="text" id="inscricao-estadual" name="inscricao-estadual" required>
+            </div>
+            <div class="form-group">
+                <label for="data">Data:</label>
+                <input type="date" id="data" name="data" required>
+            </div>
+            <div class="form-group">
+                <label for="municipio">Município:</label>
+                <input type="text" id="municipio" name="municipio" required>
+            </div>
+
+            <!-- Botão para adicionar item de serviço -->
+            <button type="button" id="add-service-btn">Adicionar Serviço</button>
+
+            <div id="service-items"></div>
+
+            <!-- Exibição do Total Geral -->
+            <p class="total">Total Geral: R$ <span id="total-value">0,00</span></p>
+
+        
+
+            <!-- Botão para autorizar serviço -->
+            <button type="submit">Autorizar Serviço</button>
+        </form>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
