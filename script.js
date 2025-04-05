@@ -1,6 +1,7 @@
+// Função para gerar o PDF
 function generatePDF() {
     const { jsPDF } = window.jspdf;
-    const doc = new jsPDF('landscape', 'mm', 'a4'); // Layout paisagem (landscape)
+    const doc = new jsPDF('portrait', 'mm', 'a4'); // Layout retrato (portrait) com tamanho A4
 
     // Coletando os dados do formulário
     const cliente = document.getElementById('cliente').value || ''; 
@@ -13,66 +14,75 @@ function generatePDF() {
     const data = document.getElementById('data').value || new Date().toISOString().slice(0, 10); 
     const municipio = document.getElementById('municipio').value || ''; 
 
+    // Formatação da data para o formato brasileiro (dd/mm/yyyy)
     const formattedDate = formatDateToBrazilian(data); 
 
+    // Gerando um número de serviço aleatório
     const serviceNumber = Math.floor(Math.random() * 9000) + 1000;
 
+    // Função para adicionar conteúdo ao PDF
     function addContent(doc, yOffset) {
+        // Pegando a largura e altura da página para ajustar o conteúdo
+        const pageWidth = doc.internal.pageSize.width;
+        const pageHeight = doc.internal.pageSize.height;
+
+        // Ajustando a fonte para o título "AUTORIZAÇÃO DE SERVIÇO"
         doc.setFontSize(14);
         doc.setFont("helvetica", "bold");
-        doc.text("AUTORIZAÇÃO DE SERVIÇO", 150, yOffset - 10, { align: 'center' });
+        doc.text("AUTORIZAÇÃO DE SERVIÇO", pageWidth / 2, yOffset - 10, { align: 'center' });
 
-        doc.setTextColor(255, 0, 0); // Define a cor do texto para vermelho
+        // Número de serviço em vermelho
+        doc.setTextColor(255, 0, 0); 
         doc.setFontSize(10);
-        doc.text(`Número: ${serviceNumber}`, 150, yOffset - 5, { align: 'center' });
+        doc.text(`Número: ${serviceNumber}`, pageWidth / 2, yOffset - 5, { align: 'center' });
+        doc.setTextColor(0, 0, 0); // Voltando a cor para preto para os outros textos
 
-       // Restaura a cor do texto para preto ou a cor original para os próximos textos
-       doc.setTextColor(0, 0, 0); // Cor preta para os outros textos
-       
-
+        // Informações da empresa (nome, endereço, telefone, etc)
         doc.setFontSize(10);
         doc.setFont("helvetica", "normal");
-        doc.text('RJ PNEUS', 7, yOffset + 1);
+        doc.text('RJ PNEUS', 10, yOffset + 1);
         doc.setFontSize(9);
-        doc.text('RENOVAÇÃO, CONSERTOS EM GERAL', 7, yOffset + 5);
-        doc.text('Rua C2 - Bairro Boa Vista, Qd. 16 Lt. 52 e 53 - Luís Eduardo Magalhães - BA', 7, yOffset + 10);
-        doc.text('Fone: (77) 9 9924-1468', 7, yOffset + 15);
-        doc.text(`CNPJ: 36.881.820/0001-87`, 7, yOffset + 20);
+        doc.text('RENOVAÇÃO, CONSERTOS EM GERAL', 10, yOffset + 5);
+        doc.text('Rua C2 - Bairro Boa Vista, Qd. 16 Lt. 52 e 53 - Luís Eduardo Magalhães - BA', 10, yOffset + 10);
+        doc.text('Fone: (77) 9 9924-1468', 10, yOffset + 15);
+        doc.text(`CNPJ: 36.881.820/0001-87`, 10, yOffset + 20);
 
-        // Informações do cliente
+        // Informações do cliente (nome, placa, telefone, etc)
         doc.setFontSize(9);
-        doc.text(`Sr: ${cliente}`, 120, yOffset + 10);
-        doc.text(`Placa: ${placa}`, 190, yOffset + 10); 
-        doc.text(`Telefone: ${telefone}`, 250, yOffset + 10);
-        doc.text(`CNPJ: ${cnpj}`, 120, yOffset + 15); 
-        doc.text(`Endereço: ${endereco}`, 190, yOffset + 15);
-        doc.text(`Inscrição Estadual: ${inscricaoEstadual}`, 250, yOffset + 15);
-        doc.text(`Número: ${numero}`, 120, yOffset + 20);
-        doc.text(`Data: ${formattedDate}`, 190, yOffset + 20);
-        doc.text(`Município: ${municipio}`, 250, yOffset + 20);
+        doc.text(`Sr: ${cliente}`, pageWidth / 20, yOffset + 25);
+        doc.text(`Placa: ${placa}`, pageWidth - 140, yOffset + 25); 
+        doc.text(`Telefone: ${telefone}`, pageWidth - 140, yOffset + 30);
+        doc.text(`CNPJ: ${cnpj}`, pageWidth / 20, yOffset + 30); 
+        doc.text(`Endereço: ${endereco}`, pageWidth - 140, yOffset + 35);
+        doc.text(`Inscrição Estadual: ${inscricaoEstadual}`, pageWidth - 80, yOffset + 25);
+        doc.text(`Número: ${numero}`, pageWidth / 20, yOffset + 35);
+        doc.text(`Data: ${formattedDate}`, pageWidth - 80, yOffset + 30);
+        doc.text(`Município: ${municipio}`, pageWidth - 80, yOffset + 35);
 
-        // Cabeçalho da tabela
+        // Cabeçalho da tabela (títulos das colunas)
         doc.setFontSize(9);
         doc.setFont("helvetica", "bold");
-        doc.text('Medidas', 20, yOffset + 25);
-        doc.text('Marca', 50, yOffset + 25);  
-        doc.text('Série', 80, yOffset + 25);  
-        doc.text('Lonas', 110, yOffset + 25); 
-        doc.text('Discriminação', 140, yOffset + 25); 
-        doc.text('Desenho', 170, yOffset + 25);  
-        doc.text('Unitário', 200, yOffset + 25);  
-        doc.text('Desconto', 230, yOffset + 25);  
-        doc.text('Total', 260, yOffset + 25);  
+        doc.text('Medidas', 10, yOffset + 40);
+        doc.text('Marca', 30, yOffset + 40);  
+        doc.text('Série', 50, yOffset + 40);  
+        doc.text('Lonas', 60, yOffset + 40); 
+        doc.text('Discriminação', 80, yOffset + 40); 
+        doc.text('Desenho', 110, yOffset + 40);  
+        doc.text('Unitário', 130, yOffset + 40);  
+        doc.text('Desconto', 150, yOffset + 40);  
+        doc.text('Total', 180, yOffset + 40);  
 
-        doc.line(7, yOffset + 22, 295, yOffset + 22);
+        // Linha de separação para a tabela
+        doc.line(7, yOffset + 36, pageWidth - 7, yOffset + 36);
 
-        let totalGeral = 0;
+        let totalGeral = 0; // Total geral para a soma dos itens
+        const items = document.querySelectorAll('.service-item'); // Coletando todos os itens de serviço
+        let yOffsetItems = yOffset + 45; // Posição inicial para os itens da tabela
+        let rowCounter = 0; // Contador de linhas
 
-        const items = document.querySelectorAll('.service-item');
-        let yOffsetItems = yOffset + 30;
-        let rowCounter = 0;
-
+        // Loop para cada item de serviço
         items.forEach((item, index) => {
+            // Pegando os valores dos campos de cada item
             const medidas = item.querySelector('.medidas').value || '';  
             const marca = item.querySelector('.marca').value || '';  
             const serie = item.querySelector('.serie').value || '';  
@@ -82,42 +92,44 @@ function generatePDF() {
             const unitario = parseFloat(item.querySelector('.unitario').value) || 0;  
             const desconto = parseFloat(item.querySelector('.desconto').value) || 0;  
 
-            const totalComDesconto = lonas * unitario - desconto;
+            const totalComDesconto = lonas * unitario - desconto; // Calculando o total com desconto
+            totalGeral += totalComDesconto || 0; // Atualizando o total geral
 
-            totalGeral += totalComDesconto || 0;
-
+            // Adicionando os valores na tabela
             doc.setFont("helvetica", "normal");
-            doc.text(medidas, 20, yOffsetItems);
-            doc.text(marca, 50, yOffsetItems);  
-            doc.text(serie, 80, yOffsetItems);  
-            doc.text(lonas, 110, yOffsetItems); 
-            doc.text(discriminacao, 140, yOffsetItems); 
-            doc.text(desenho, 170, yOffsetItems);  
-            doc.text(`R$ ${unitario.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, 200, yOffsetItems);  
-            doc.text(`R$ ${desconto.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, 230, yOffsetItems);  
-            doc.text(`R$ ${totalComDesconto.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, 260, yOffsetItems);  
+            doc.text(medidas, 10, yOffsetItems);
+            doc.text(marca, 30, yOffsetItems);  
+            doc.text(serie, 50, yOffsetItems);  
+            doc.text(lonas, 60, yOffsetItems); 
+            doc.text(discriminacao, 80, yOffsetItems); 
+            doc.text(desenho, 110, yOffsetItems);  
+            doc.text(`R$ ${unitario.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, 130, yOffsetItems);  
+            doc.text(`R$ ${desconto.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, 150, yOffsetItems);  
+            doc.text(`R$ ${totalComDesconto.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, 180, yOffsetItems);  
 
-            yOffsetItems += 3;
+            yOffsetItems += 5; // Aumenta a posição para a próxima linha
+            rowCounter++; // Incrementa o contador de linhas
 
-            rowCounter++;
-
+            // Se o número de linhas atingir o limite (20), adiciona uma nova página
             if (rowCounter >= 20) {
-                doc.addPage();
-                rowCounter = 0;
-                yOffsetItems = 20;
+                doc.addPage(); // Adiciona uma nova página quando atingir o limite de linhas
+                rowCounter = 0; // Reseta o contador de linhas
+                yOffsetItems = 20; // Resetar a posição da nova página
             }
         });
 
-        yOffsetItems += 1;
+        // Adicionando o total geral ao final da tabela
+        yOffsetItems += 5; 
         doc.setFontSize(10);
         doc.setFont("helvetica", "bold");
-        doc.text(`Total Geral: R$ ${totalGeral.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, 240, yOffsetItems);
+        doc.text(`Total Geral: R$ ${totalGeral.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, pageWidth - 60, yOffsetItems);
 
+        // Adicionando os campos "Examinador" e "Assinatura"
         doc.setFontSize(8);
-        doc.text('Examinador:', 20, yOffsetItems + 5);
-        doc.text('Assinatura:', 80, yOffsetItems + 5);
+        doc.text('Examinador:', 10, yOffsetItems + 5);
+        doc.text('Assinatura:', 60, yOffsetItems + 5);
 
-        // Rodapé fixo em ambas as vias
+        // Rodapé fixo com a data de lançamento
         const currentDate = new Date();
         const dateString = currentDate.toLocaleString('pt-BR', {
             day: '2-digit',
@@ -127,23 +139,25 @@ function generatePDF() {
             minute: '2-digit'
         });
 
-        const rodapeYPos = yOffsetItems + 5; // Ajustando a posição vertical para a segunda via
+        const rodapeYPos = yOffsetItems + 5; // Posicionamento do rodapé
         doc.setFontSize(8);
-        doc.text(`Lançamento em: ${dateString}`, 230, rodapeYPos); // Rodapé da primeira via
+        doc.text(`Lançamento em: ${dateString}`, pageWidth - 60, rodapeYPos); 
     }
 
     let yOffset = 20;
-    addContent(doc, yOffset);
+    addContent(doc, yOffset); // Adiciona o conteúdo à primeira página
 
-    doc.line(7, 105, 295, 105);
+    // Linha de separação
+    doc.line(7, 150, doc.internal.pageSize.width - 7, 150);
 
-    yOffset = 120;
-    addContent(doc, yOffset);
+    yOffset = 165;
+    addContent(doc, yOffset); // Adiciona o conteúdo à segunda página
 
     // Gerar o PDF
     doc.save('autorizacao_servico.pdf');
 }
 
+// Função para formatar a data no formato brasileiro (dd/mm/yyyy)
 function formatDateToBrazilian(date) {
     const [year, month, day] = date.split('-');
     return `${day}/${month}/${year}`;
