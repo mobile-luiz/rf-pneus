@@ -1,177 +1,196 @@
 function generatePDF() {
     const { jsPDF } = window.jspdf;
-    const doc = new jsPDF('landscape', 'mm', 'a4'); // Horizontal layout (landscape)
+    const doc = new jsPDF('landscape', 'mm', 'a4'); // Layout paisagem (landscape)
 
     // Coletando os dados do formulário
-    const cliente = document.getElementById('cliente').value;
-    const telefone = document.getElementById('telefone').value;
-    const endereco = document.getElementById('endereco').value;
-    const placa = document.getElementById('placa').value;
-    const numero = document.getElementById('numero').value;  // Captura o valor do campo "Número"
-    const cnpj = '36.881.820/0001-87'; // CNPJ da empresa
-    const inscricaoEstadual = document.getElementById('inscricao-estadual').value;
-    const data = document.getElementById('data').value;
-    const municipio = document.getElementById('municipio').value;
+    const cliente = document.getElementById('cliente').value || ''; 
+    const telefone = document.getElementById('telefone').value || ''; 
+    const endereco = document.getElementById('endereco').value || ''; 
+    const placa = document.getElementById('placa').value || ''; 
+    const numero = document.getElementById('numero').value || ''; 
+    const cnpj = document.getElementById('cnpj').value || ''; 
+    const inscricaoEstadual = document.getElementById('inscricao-estadual').value || ''; 
+    const data = document.getElementById('data').value || new Date().toISOString().slice(0, 10); 
+    const municipio = document.getElementById('municipio').value || ''; 
 
-    // Formatar a data no formato brasileiro (DD/MM/YYYY)
-    const formattedDate = formatDateToBrazilian(data);
+    const formattedDate = formatDateToBrazilian(data); 
 
-    // Função para adicionar o conteúdo do PDF
-    function addContent(doc, clientLabel) {
-        // Adicionando o título "Autorização de Serviço"
-        doc.setFontSize(16);
+    const serviceNumber = Math.floor(Math.random() * 9000) + 1000;
+
+    function addContent(doc, yOffset) {
+        doc.setFontSize(14);
         doc.setFont("helvetica", "bold");
-        doc.text("Autorização de Serviço", 105, 20, { align: "center" });
+        doc.text("AUTORIZAÇÃO DE SERVIÇO", 150, yOffset - 10, { align: 'center' });
 
-        // Cabeçalho da empresa
-        doc.setFontSize(12);
-        doc.setFont("helvetica", "normal");
-        doc.text('RJ PNEUS', 20, 30);
+        doc.setTextColor(255, 0, 0); // Define a cor do texto para vermelho
         doc.setFontSize(10);
-        doc.text('REMOÇÃO, CONSERTOS EM GERAL', 20, 35);
-        doc.text('Rua C2 - Bairro Boa Vista, Qd. 16 Lt. 52 e 53 - Luís Eduardo Magalhães - BA', 20, 40);
-        doc.text('Fone: (77) 9 9924-1468', 20, 45);
-        doc.text(`CNPJ: 36.881.820/0001-87`, 20, 50);
+        doc.text(`Número: ${serviceNumber}`, 150, yOffset - 5, { align: 'center' });
+
+       // Restaura a cor do texto para preto ou a cor original para os próximos textos
+       doc.setTextColor(0, 0, 0); // Cor preta para os outros textos
+       
+
+        doc.setFontSize(10);
+        doc.setFont("helvetica", "normal");
+        doc.text('RJ PNEUS', 7, yOffset + 1);
+        doc.setFontSize(9);
+        doc.text('RENOVAÇÃO, CONSERTOS EM GERAL', 7, yOffset + 5);
+        doc.text('Rua C2 - Bairro Boa Vista, Qd. 16 Lt. 52 e 53 - Luís Eduardo Magalhães - BA', 7, yOffset + 10);
+        doc.text('Fone: (77) 9 9924-1468', 7, yOffset + 15);
+        doc.text(`CNPJ: 36.881.820/0001-87`, 7, yOffset + 20);
 
         // Informações do cliente
-        doc.setFontSize(12);
-        doc.text(`Sr: ${cliente}`, 180, 20);
-        doc.text(`Placa: ${placa}`, 180, 25);
-        doc.text(`Telefone: ${telefone}`, 180, 30);
-        doc.text(`Endereço: ${endereco}`, 180, 35);
-        doc.text(`Inscrição Estadual: ${inscricaoEstadual}`, 180, 40);
-        doc.text(`Número: ${numero}`, 180, 45);  // Exibindo o número
-        doc.text(`Data: ${formattedDate}`, 180, 50); // Data formatada
-        doc.text(`Município: ${municipio}`, 180, 55);
-
-        // Adicionando uma linha para separar o cabeçalho
-        doc.line(20, 60, 285, 60);
+        doc.setFontSize(9);
+        doc.text(`Sr: ${cliente}`, 120, yOffset + 10);
+        doc.text(`Placa: ${placa}`, 190, yOffset + 10); 
+        doc.text(`Telefone: ${telefone}`, 250, yOffset + 10);
+        doc.text(`CNPJ: ${cnpj}`, 120, yOffset + 15); 
+        doc.text(`Endereço: ${endereco}`, 190, yOffset + 15);
+        doc.text(`Inscrição Estadual: ${inscricaoEstadual}`, 250, yOffset + 15);
+        doc.text(`Número: ${numero}`, 120, yOffset + 20);
+        doc.text(`Data: ${formattedDate}`, 190, yOffset + 20);
+        doc.text(`Município: ${municipio}`, 250, yOffset + 20);
 
         // Cabeçalho da tabela
-        doc.text('Medidas', 20, 65);
-        doc.text('Marca', 55, 65);
-        doc.text('Série', 90, 65);
-        doc.text('Lonas', 125, 65);
-        doc.text('Discriminação', 160, 65);
-        doc.text('Desenho', 195, 65);
-        doc.text('Unitário', 230, 65);
-        doc.text('TOTAL', 265, 65);
+        doc.setFontSize(9);
+        doc.setFont("helvetica", "bold");
+        doc.text('Medidas', 20, yOffset + 25);
+        doc.text('Marca', 50, yOffset + 25);  
+        doc.text('Série', 80, yOffset + 25);  
+        doc.text('Lonas', 110, yOffset + 25); 
+        doc.text('Discriminação', 140, yOffset + 25); 
+        doc.text('Desenho', 170, yOffset + 25);  
+        doc.text('Unitário', 200, yOffset + 25);  
+        doc.text('Desconto', 230, yOffset + 25);  
+        doc.text('Total', 260, yOffset + 25);  
 
-        // Estilo de linha
-        const lineY = 70;
-        doc.line(20, lineY, 285, lineY); // Linha horizontal para separar o cabeçalho
+        doc.line(7, yOffset + 22, 295, yOffset + 22);
 
-        let totalGeral = 0; // Variável para armazenar o total geral
+        let totalGeral = 0;
 
-        // Adicionando os itens de serviço
         const items = document.querySelectorAll('.service-item');
-        let yOffset = 75;
+        let yOffsetItems = yOffset + 30;
         let rowCounter = 0;
 
         items.forEach((item, index) => {
-            const medidas = item.querySelector('.medidas').value;
-            const marca = item.querySelector('.marca').value;
-            const serie = item.querySelector('.serie').value;
-            const lonas = item.querySelector('.lonas').value;
-            const discriminacao = item.querySelector('.discriminacao').value;
-            const desenho = item.querySelector('.desenho').value;
-            const unitario = item.querySelector('.unitario').value;
-            const total = item.querySelector('.total').value;
+            const medidas = item.querySelector('.medidas').value || '';  
+            const marca = item.querySelector('.marca').value || '';  
+            const serie = item.querySelector('.serie').value || '';  
+            const lonas = item.querySelector('.lonas').value || '';  
+            const discriminacao = item.querySelector('.discriminacao').value || '';  
+            const desenho = item.querySelector('.desenho').value || '';  
+            const unitario = parseFloat(item.querySelector('.unitario').value) || 0;  
+            const desconto = parseFloat(item.querySelector('.desconto').value) || 0;  
 
-            // Verifica se os campos necessários estão preenchidos antes de adicionar o item
-            if (!medidas || !marca || !serie || !lonas || !discriminacao || !desenho || !unitario || !total) {
-                return; // Ignora os itens incompletos
-            }
+            const totalComDesconto = lonas * unitario - desconto;
 
-            // Atualizando o total geral
-            totalGeral += parseFloat(total) || 0;
+            totalGeral += totalComDesconto || 0;
 
-            // Adiciona os dados na tabela
-            doc.text(medidas, 20, yOffset);
-            doc.text(marca, 55, yOffset);
-            doc.text(serie, 90, yOffset);
-            doc.text(lonas, 125, yOffset);
-            doc.text(discriminacao, 160, yOffset);
-            doc.text(desenho, 195, yOffset);
-            doc.text(`R$ ${parseFloat(unitario).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, 230, yOffset);
-            doc.text(`R$ ${parseFloat(total).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, 265, yOffset);
+            doc.setFont("helvetica", "normal");
+            doc.text(medidas, 20, yOffsetItems);
+            doc.text(marca, 50, yOffsetItems);  
+            doc.text(serie, 80, yOffsetItems);  
+            doc.text(lonas, 110, yOffsetItems); 
+            doc.text(discriminacao, 140, yOffsetItems); 
+            doc.text(desenho, 170, yOffsetItems);  
+            doc.text(`R$ ${unitario.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, 200, yOffsetItems);  
+            doc.text(`R$ ${desconto.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, 230, yOffsetItems);  
+            doc.text(`R$ ${totalComDesconto.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, 260, yOffsetItems);  
 
-            yOffset += 10; // Desloca para a próxima linha
+            yOffsetItems += 3;
 
             rowCounter++;
 
-            // Se já tiver 10 itens, inicia uma nova página
-            if (rowCounter >= 10) {
-                doc.addPage(); // Adiciona nova página
+            if (rowCounter >= 20) {
+                doc.addPage();
                 rowCounter = 0;
-                yOffset = 20; // Reseta o yOffset para o início da nova página
+                yOffsetItems = 20;
             }
         });
 
-        // Linha final para separar os itens do rodapé
-        doc.line(20, yOffset + 5, 285, yOffset + 5);
-
-        // Exibindo o total geral no final em negrito
+        yOffsetItems += 1;
+        doc.setFontSize(10);
         doc.setFont("helvetica", "bold");
-        doc.text(`Total Geral: R$ ${totalGeral.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, 180, yOffset + 15); // Total à direita
+        doc.text(`Total Geral: R$ ${totalGeral.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, 240, yOffsetItems);
 
-        // Adicionando a data e hora de lançamento ao lado de "Total Geral"
-        const downloadDate = new Date();
-        const formattedDownloadDate = `${downloadDate.getDate().toString().padStart(2, '0')}/${(downloadDate.getMonth() + 1).toString().padStart(2, '0')}/${downloadDate.getFullYear()} ${downloadDate.getHours().toString().padStart(2, '0')}:${downloadDate.getMinutes().toString().padStart(2, '0')}:${downloadDate.getSeconds().toString().padStart(2, '0')}`;
-
-        doc.setFontSize(10);
-        doc.setFont("helvetica", "normal");
-        doc.text(`Lançamento em: ${formattedDownloadDate}`, 20, yOffset + 25); // Data à esquerda
-
-        // Adicionando o campo de desconto (embaixo da tabela)
-        doc.setFontSize(10);
-        doc.text(`Desconto: R$ 0,00`, 180, yOffset + 35); // Ajuste o valor conforme necessário
-
-        // Adicionando as observações abaixo
         doc.setFontSize(8);
-        doc.text("Obs.: As mercadorias que não forem retiradas até 30 dias serão devolvidas para pagamento.", 20, yOffset + 45);
-        doc.text("Não garantimos estorno de carga.", 20, yOffset + 50);
+        doc.text('Examinador:', 20, yOffsetItems + 5);
+        doc.text('Assinatura:', 80, yOffsetItems + 5);
 
-        // Adicionando os campos de assinatura (apenas os nomes, sem linha)
-        doc.text("Assinatura do Cliente:", 20, yOffset + 65);
-        doc.text("Assinatura do Examinador:", 180, yOffset + 65);
+        // Rodapé fixo em ambas as vias
+        const currentDate = new Date();
+        const dateString = currentDate.toLocaleString('pt-BR', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+
+        const rodapeYPos = yOffsetItems + 5; // Ajustando a posição vertical para a segunda via
+        doc.setFontSize(8);
+        doc.text(`Lançamento em: ${dateString}`, 230, rodapeYPos); // Rodapé da primeira via
     }
 
-    // Gerando a primeira via (Cópia para o Cliente)
-    addContent(doc, "Cópia para o Cliente");
+    let yOffset = 20;
+    addContent(doc, yOffset);
 
-    // Adicionando nova página para a segunda via (Cópia para a Loja)
-    doc.addPage();
-    addContent(doc, "Cópia para a Loja");
+    doc.line(7, 105, 295, 105);
 
-    // Salvando o PDF
+    yOffset = 120;
+    addContent(doc, yOffset);
+
+    // Gerar o PDF
     doc.save('autorizacao_servico.pdf');
 }
 
-
-// Função para formatar a data no formato brasileiro (DD/MM/YYYY)
 function formatDateToBrazilian(date) {
-    const [year, month, day] = date.split('-'); // Divida a data no formato YYYY-MM-DD
-    return `${day}/${month}/${year}`; // Retorna a data no formato DD/MM/YYYY
+    const [year, month, day] = date.split('-');
+    return `${day}/${month}/${year}`;
 }
 
 
 
 
-// Adicionando evento para o botão de adicionar item
-document.getElementById('add-service-btn').addEventListener('click', addItem);
+// Inicializa a contagem de cliques
+let clickCount = 0;
 
-// Função para adicionar um novo item de serviço
+// Limite máximo de serviços
+const maxServices = 14;
+
+// Função para adicionar um item de serviço
+document.getElementById('add-service-btn').addEventListener('click', function() {
+    // Verifica se o número máximo de cliques foi atingido (14)
+    if (clickCount >= maxServices) {
+        // Desabilita o botão após 10 cliques
+        this.disabled = true;
+        alert('Você atingiu o limite de 14 serviços.');
+        return; // Impede o código de adicionar mais serviços
+    }
+
+    // Adiciona um novo item de serviço
+    addItem();  // Esta função deve ser a responsável por adicionar um item (como no seu código original)
+
+    // Incrementa o contador de cliques
+    clickCount++;
+});
+
+// Função para adicionar um item de serviço
 function addItem() {
     const serviceItemsContainer = document.getElementById('service-items');
-    
+
+    // Verifique se já existe o número máximo de itens
+    if (serviceItemsContainer.childElementCount >= maxServices) {
+        return; // Não adiciona mais itens se já atingiu o limite
+    }
+
     const newItem = document.createElement('div');
     newItem.classList.add('service-item');
     
     newItem.innerHTML = `
         <div class="form-group">
             <label for="medidas">Medidas</label>
-            <input type="text" class="medidas" name="medidas[]" required>
+            <input type="number" class="medidas" name="medidas[]" required>
         </div>
         <div class="form-group">
             <label for="marca">Marca</label>
@@ -179,7 +198,7 @@ function addItem() {
         </div>
         <div class="form-group">
             <label for="serie">Série</label>
-            <input type="text" class="serie" name="serie[]" required>
+            <input type="number" class="serie" name="serie[]" required>
         </div>
         <div class="form-group">
             <label for="lonas">Lonas</label>
@@ -197,6 +216,13 @@ function addItem() {
             <label for="unitario">Unitário</label>
             <input type="number" class="unitario" name="unitario[]" required>
         </div>
+
+        <div class="form-group">
+            <label for="desconto">Desconto (R$):</label>
+            <input type="number" class="desconto" name="desconto[]" value="0" step="0.01" min="0" onchange="applyDiscount(this)">
+          </div>
+
+
         <div class="form-group">
             <label for="total">Total</label>
             <input type="number" class="total" name="total[]" readonly>
@@ -216,8 +242,31 @@ function calculateTotal(item) {
     const unitario = parseFloat(item.querySelector('.unitario').value) || 0;
 
     const total = lonas * unitario;
-    item.querySelector('.total').value = total.toFixed(2);
-    updateTotal(); // Atualiza o total geral
+    item.querySelector('.total').value = total.toFixed(2);  // Mantém o valor com 2 casas decimais
+
+    // Atualiza o total geral
+    updateTotal(); 
+}
+
+
+
+// Função para aplicar o desconto
+function applyDiscount(input) {
+    // Obter o item de serviço relacionado a este campo
+    const item = input.closest('.service-item');
+    
+    const lonas = parseFloat(item.querySelector('.lonas').value) || 0;
+    const unitario = parseFloat(item.querySelector('.unitario').value) || 0;
+    const desconto = parseFloat(input.value) || 0;
+
+    const total = lonas * unitario;
+    const totalComDesconto = total - desconto;  // Subtrai o desconto do total
+
+    // Atualiza o campo de total com desconto
+    item.querySelector('.total').value = totalComDesconto.toFixed(2);  // Atualiza o total com desconto
+
+    // Atualiza o total geral
+    updateTotal();
 }
 
 // Função para atualizar o total geral
@@ -229,7 +278,22 @@ function updateTotal() {
         totalValue += parseFloat(field.value) || 0;
     });
 
-    document.getElementById('total-value').innerText = totalValue.toFixed(2);
+    // Exibindo o total formatado corretamente
+    document.getElementById('total-value').innerText = `R$ ${totalValue.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+}
+
+
+// Função para atualizar o total geral
+function updateTotal() {
+    const totalFields = document.querySelectorAll('.total');
+    let totalValue = 0;
+
+    totalFields.forEach(field => {
+        totalValue += parseFloat(field.value) || 0;
+    });
+
+    // Exibindo o total formatado corretamente
+    document.getElementById('total-value').innerText = `R$ ${totalValue.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 }
 
 // Função para remover um item de serviço
@@ -238,6 +302,7 @@ function removeItem(button) {
     item.remove();
     updateTotal(); // Atualiza o total geral após remoção
 }
+
 
 // Adicionando evento para o botão de gerar PDF
 document.querySelector('button[type="submit"]').addEventListener('click', function(event) {

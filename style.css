@@ -156,3 +156,78 @@ button:hover {
         margin-bottom: 10px;
     }
 }
+
+
+/* Estilos do botão */
+button {
+    width: 100%;
+    padding: 12px;
+    background-color: #6a1b9a; /* Cor mais vibrante */
+    border: none;
+    border-radius: 8px; /* Bordas mais arredondadas */
+    color: white;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Efeitos de transição suaves */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave para dar profundidade */
+}
+
+button:hover {
+    background-color: #9c4d97; /* Cor mais clara para o efeito de hover */
+    transform: scale(1.05); /* Efeito de aumento para dar destaque */
+}
+
+button:active {
+    transform: scale(1); /* Retorna ao tamanho normal quando clicado */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Sombra mais sutil no clique */
+}
+
+/* Botão "Adicionar Serviço" */
+#add-service-btn {
+    background-color: #4caf50;
+    color: white;
+    font-size: 1.1rem;
+    padding: 12px;
+    border-radius: 8px;
+    width: 100%;
+    margin-top: 10px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#add-service-btn:hover {
+    background-color: #45a049; /* Tom mais claro ao passar o mouse */
+    transform: scale(1.05);
+}
+
+#add-service-btn:active {
+    transform: scale(1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Botão de remoção de item */
+#service-items .service-item .remove-item-btn {
+    background-color: #f44336;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    padding: 12px;
+    margin-top: 10px;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#service-items .service-item .remove-item-btn:hover {
+    background-color: #d32f2f;
+    transform: scale(1.05);
+}
+
+#service-items .service-item .remove-item-btn:active {
+    transform: scale(1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
