@@ -60,12 +60,12 @@ function generatePDF() {
         doc.text(`Município: ${municipio}`, pageWidth - 80, yOffset + 35);
 
         // Cabeçalho da tabela (títulos das colunas)
-        doc.setFontSize(9);
+        doc.setFontSize(8);
         doc.setFont("helvetica", "bold");
         doc.text('Medidas', 10, yOffset + 40);
         doc.text('Marca', 30, yOffset + 40);  
-        doc.text('Série', 50, yOffset + 40);  
-        doc.text('Lonas', 60, yOffset + 40); 
+        doc.text('Série', 55, yOffset + 40);  
+        doc.text('Lonas', 65, yOffset + 40); 
         doc.text('Discriminação', 80, yOffset + 40); 
         doc.text('Desenho', 110, yOffset + 40);  
         doc.text('Unitário', 130, yOffset + 40);  
@@ -99,8 +99,8 @@ function generatePDF() {
             doc.setFont("helvetica", "normal");
             doc.text(medidas, 10, yOffsetItems);
             doc.text(marca, 30, yOffsetItems);  
-            doc.text(serie, 50, yOffsetItems);  
-            doc.text(lonas, 60, yOffsetItems); 
+            doc.text(serie, 55, yOffsetItems);  
+            doc.text(lonas, 65, yOffsetItems); 
             doc.text(discriminacao, 80, yOffsetItems); 
             doc.text(desenho, 110, yOffsetItems);  
             doc.text(`R$ ${unitario.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, 130, yOffsetItems);  
